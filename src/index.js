@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -11,29 +20,32 @@ const backgroundElement = document.getElementsByTagName("body")[0];
 const buttonsWrapper = document.getElementById("buttonsWrapper");
 const volumeInput = document.querySelector("#volume-control");
 const audio = new Audio();
+audio.currentTime = 0;
 let currentButtonId = null;
 const classnames = ["sun", "rain", "snow"];
 function playOrPause(buttonClass, soundUrl, event) {
-    const clickedButton = event.target;
-    const buttonClassList = clickedButton.querySelector("div").classList;
-    if (clickedButton.id !== (currentButtonId === null || currentButtonId === void 0 ? void 0 : currentButtonId.toString())) {
-        const buttonsArray = document.querySelectorAll("button");
-        for (let i = 0; i < buttonsArray.length; i++) {
-            buttonsArray[i].querySelector("div").classList.remove("pause");
-            buttonsArray[i].querySelector("div").classList.add(classnames[i]);
-        }
-        buttonClassList.remove("pause");
-        buttonClassList.add(buttonClass);
+    return __awaiter(this, void 0, void 0, function* () {
+        const clickedButton = event.target;
+        const buttonClassList = clickedButton.querySelector("div").classList;
         audio.src = soundUrl;
-        audio.play();
-        currentButtonId = Number(clickedButton.id);
-    }
-    else {
-        buttonClassList.remove(buttonClass);
-        buttonClassList.add("pause");
-        audio.pause();
-        currentButtonId = null;
-    }
+        if (clickedButton.id !== (currentButtonId === null || currentButtonId === void 0 ? void 0 : currentButtonId.toString())) {
+            const buttonsArray = document.querySelectorAll("button");
+            for (let i = 0; i < buttonsArray.length; i++) {
+                buttonsArray[i].querySelector("div").classList.remove("pause");
+                buttonsArray[i].querySelector("div").classList.add(classnames[i]);
+            }
+            // buttonClassList.remove("pause");
+            // buttonClassList.add(buttonClass);
+            yield audio.play();
+            currentButtonId = Number(clickedButton.id);
+        }
+        else {
+            buttonClassList.remove(buttonClass);
+            buttonClassList.add("pause");
+            audio.pause();
+            currentButtonId = null;
+        }
+    });
 }
 function updateBackground(backgroundClass) {
     const backgroundClassList = backgroundElement.classList;

@@ -5,16 +5,16 @@ import winterSound from "../public/assets/sounds/winter.mp3";
 
 const backgroundElement = document.getElementsByTagName("body")[0];
 const buttonsWrapper = document.getElementById("buttonsWrapper");
-const volumeInput = document.querySelector<HTMLInputElement>("#volume-control");
+const volumeInput = document.querySelector("#volume-control") as HTMLInputElement;
 
 const audio = new Audio();
 let currentButtonId: number | null = null;
-const classnames = ["sun", "rain", "snow"];
+const classnames: string[] = ["sun", "rain", "snow"];
 
-function playOrPause(buttonClass: string, soundUrl: string, event: MouseEvent): void {
+async function playOrPause(buttonClass: string, soundUrl: string, event: MouseEvent): Promise<void> {
   const clickedButton = event.target as HTMLButtonElement;
   const buttonClassList = clickedButton.querySelector("div")!.classList;
-
+  audio.src = soundUrl;
   
   if (clickedButton.id !== currentButtonId?.toString()) {
     const buttonsArray = document.querySelectorAll("button");
@@ -22,10 +22,7 @@ function playOrPause(buttonClass: string, soundUrl: string, event: MouseEvent): 
       buttonsArray[i].querySelector("div")!.classList.remove("pause");
       buttonsArray[i].querySelector("div")!.classList.add(classnames[i]);
     }
-    buttonClassList.remove("pause");
-    buttonClassList.add(buttonClass);
-    audio.src = soundUrl;
-    audio.play();
+    await audio.play();
     currentButtonId = Number(clickedButton.id);
   } else {
     buttonClassList.remove(buttonClass);
