@@ -20,7 +20,6 @@ const backgroundElement = document.getElementsByTagName("body")[0];
 const buttonsWrapper = document.getElementById("buttonsWrapper");
 const volumeInput = document.querySelector("#volume-control");
 const audio = new Audio();
-audio.currentTime = 0;
 let currentButtonId = null;
 const classnames = ["sun", "rain", "snow"];
 function playOrPause(buttonClass, soundUrl, event) {
@@ -34,8 +33,6 @@ function playOrPause(buttonClass, soundUrl, event) {
                 buttonsArray[i].querySelector("div").classList.remove("pause");
                 buttonsArray[i].querySelector("div").classList.add(classnames[i]);
             }
-            // buttonClassList.remove("pause");
-            // buttonClassList.add(buttonClass);
             yield audio.play();
             currentButtonId = Number(clickedButton.id);
         }
